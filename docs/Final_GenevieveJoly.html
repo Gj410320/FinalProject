@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>Crime in Baton Rouge LA</title>
+    <style>
+        html,
+        body{
+            height: 100%;
+            width: 100%;
+            background-color: black;
+            padding: 0;
+            margin: 0;
+        }
+        #screenDiv{
+            height: 100%;
+            width: 100%;
+            background-color: black;
+            padding: 0;
+            margin: 0;
+        }
+        #topDiv{
+            width: 100%;
+            height: 15%;
+            background-color: #E5C9C9;
+        }
+        #bodyDiv{
+            width: 100%;
+            height: 85%;
+            background-color: #E5C9C9;
+            display: flex;
+            padding: 0;
+            margin: 0;
+        }
+        #leftDiv {
+            float: left;
+            padding: 0;
+            left: 0;
+            right: 0;
+            margin: 0;
+            height: 100%;
+            width: 25%;
+        }
+        #rightDiv {
+            float: right;
+            padding: 0;
+            left: 0;
+            right: 0;
+            margin: 0;
+            height: 100%;
+            width: 75%;
+            display: flex;
+        }
+        #header{
+            width: 100%;
+            background-color:#270B0B;
+            height: 72%;
+            text-align: center;
+            color: #E5C9C9;
+            font-family: Arial Black;
+        }
+        h2{
+            text-align: ;
+            color: black;
+            float: right;
+        }
+        #titleDiv{
+            height: 28%;
+            width: 100%;
+            background-color: #E5C9C9;
+            display: flex;
+        }
+        #nameDiv{
+            width: 25%;
+            color: #270B0B;
+            padding-left: 0.6%;
+            font-weight: 300;
+            font-size: 20px;
+            z-index: 1;
+            font-family: Arial Black;
+        }
+           #viewDiv {
+            float: left;
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 33%;
+        }
+           #seperatorDiv {
+               width: 1.5%;
+               padding: 0;
+               height: 100%;
+               margin: 0;
+           }
+        #viewDiv2{
+            right: 0;
+            left: 0;
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 33%;
+        }
+        #sideDiv{
+            float: right;
+            right: 0;
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 33%;
+        }
+        #PopDiv{
+            float: right;
+            right: 0;
+            padding: 0;
+            margin: 0;
+            height: 48.4%;
+            width: 95%;
+            border: 1px black;
+        }
+        #ParentIncDiv{
+            float: right;
+            right: 0;
+            padding: 0;
+            margin: 0;
+            height: 51.6%;
+            width: 100%;
+        }
+       #IncDiv{
+           float: right;
+            right: 0;
+            padding: 0;
+            margin: 0;
+            height: 92.5%;
+            width: 95%;
+           border: 1px black;
+        }
+        #incNameDiv{
+            float: right;
+            width: 95%;
+            height: 7.5%;
+            color: #270B0B;
+            padding-left: 0.1%;
+            font-weight: 300;
+            font-size: 20px;
+            font-family: Arial Black;
+            vertical-align: top;
+        }
+       #legendDiv{
+           float: left;
+           padding: 0;
+           margin: 0;
+           height:75%;
+           width: 96%;
+           background-color: #E5C9C9;
+           position: relative;
+           font-family: Cambria;
+       }
+       #locatorDiv{
+           float: left;
+           bottom: 0;
+           padding: 0;
+           margin: 0;
+           height: 25%;
+           width: 100%;
+           background-color: #E5C9C9;
+       }
+        #overviewDiv{
+            position: relative;
+            padding-left: 10px;
+            top: 0.5px;
+            right: 0px;
+            width: 330px;
+            height: 160px;
+            bottom: 3px;
+            z-index: 1;
+        }
+        #extentDiv{
+            border: 3px solid #E5C9C9;
+            position: absolute;
+            z-index: 2;
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.21/esri/themes/light/main.css"/>
+    <script src="https://js.arcgis.com/4.21/"></script>
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/layers/VectorTileLayer",
+            "esri/layers/FeatureLayer",
+            "esri/widgets/Swipe",
+            "esri//widgets/Expand",
+            "esri/widgets/LayerList",
+            "esri/config",
+            "esri/core/urlUtils",
+            "esri/core/watchUtils",
+            "esri/geometry/Point",
+            "dojo/domReady!"
+        ], function (Map, MapView, VectorTileLayer, FeatureLayer, Swipe, Expand, LayerList, esriConfig, urlUtils, watchUtils, Point,
+                   )
+        {
+            var map = new Map();
+            var view = new MapView({
+                map: map,
+                container: "viewDiv",
+                constraints: {
+                    rotationEnabled: false
+                },
+                center: [-91.1609183, 30.5044289],
+                extent:{
+                    xmin: -90.9670431,
+                    ymin: 30.3549865,
+                    xmax: -91.2173026,
+                    ymax: 30.5576651,
+                }
+            });
+
+            var basemap = new VectorTileLayer({
+                url: "https://arts-sciences.maps.arcgis.com/sharing/rest/content/items/c78bb6c4d69345f9945a60a1f940fdc0/resources/styles/root.json",
+                listMode: "hide",
+                title: "Basemap"
+            });
+            map.add(basemap);
+            var map2 = new Map();
+            var view2 = new MapView({
+                map: map2,
+                container: "viewDiv2",
+                ui: {
+                    components: ["attribution"]
+                },
+                constraints: {
+                    rotationEnabled: false
+                },
+                center: [-91.1609183, 30.5044289],
+                extent:{
+                    xmin: -90.9670431,
+                    ymin: 30.3549865,
+                    xmax: -91.2173026,
+                    ymax: 30.5576651,
+                }
+            });
+            var basemap = new VectorTileLayer({
+                url: "https://arts-sciences.maps.arcgis.com/sharing/rest/content/items/c78bb6c4d69345f9945a60a1f940fdc0/resources/styles/root.json",
+                listMode: "hide",
+                title: "Basemap"
+            });
+            map2.add(basemap);
+
+
+               var incMap = new Map();
+               var incview = new MapView({
+                   map: incMap,
+                   container: "IncDiv",
+                   constraints: {
+                       rotationEnabled: false
+                   },
+                   center: [-91.1609183, 30.5044289],
+                   extent:{
+                       xmin: -90.935,
+                       ymin: 30.4,
+                       xmax: -91.2156,
+                       ymax: 30.62,
+                   }
+               });
+               var basemap = new VectorTileLayer({
+                   url: "https://arts-sciences.maps.arcgis.com/sharing/rest/content/items/c78bb6c4d69345f9945a60a1f940fdc0/resources/styles/root.json",
+                   listMode: "hide",
+                   title: "Basemap"
+               });
+               incMap.add(basemap);
+
+               var popMap = new Map();
+               var popview = new MapView({
+                   map: popMap,
+                   container: "PopDiv",
+                   constraints: {
+                       rotationEnabled: false
+                   },
+                   center: [-91.1609183, 30.5044289],
+                   extent:{
+                       xmin: -90.935,
+                       ymin: 30.4,
+                       xmax: -91.2156,
+                       ymax: 30.62,
+                   }
+               });
+               var basemap = new VectorTileLayer({
+                   url: "https://arts-sciences.maps.arcgis.com/sharing/rest/content/items/c78bb6c4d69345f9945a60a1f940fdc0/resources/styles/root.json",
+                   listMode: "hide",
+                   title: "Basemap",
+               });
+               popMap.add(basemap);
+
+            var blockgroups = new FeatureLayer({
+                portalItem: {id: "243b4ff158274f30b3db5952215468ef"},
+                listMode: "hide",
+                opacity: 0.4
+            });
+            map.add(blockgroups);
+
+            var blockgroups = new FeatureLayer({
+                portalItem: {id: "243b4ff158274f30b3db5952215468ef"},
+                listMode: "hide",
+                opacity: 0.4
+            });
+            map2.add(blockgroups);
+
+            var crime2017 = new FeatureLayer({
+                portalItem: {id: "823f93ab103a4c23afbd5b128a16c1a9"}
+            });
+            map.add(crime2017);
+            var crime2021 = new FeatureLayer({
+                portalItem: {id: "936b31e12f5c4430b72830f58eb04399"}
+            });
+            map2.add(crime2021);
+
+            var hollowblockgroups = new FeatureLayer({
+                portalItem: {id: "36aaf600848b4685bb518df076d12b4e"},
+                listMode: "hide"
+            });
+            map.add(hollowblockgroups);
+
+            var hollowblockgroups = new FeatureLayer({
+                portalItem: {id: "36aaf600848b4685bb518df076d12b4e"},
+                listMode: "hide"
+            });
+            map2.add(hollowblockgroups);
+
+            var income = new FeatureLayer({
+                portalItem: {id: "ddc0a9ac5e6348a2b795ef017978e616"},
+
+            });
+            incMap.add(income)
+
+            var population = new FeatureLayer({
+                portalItem: {id: "dbace5efeb7840bf8e48ab53946b89a1"},
+            });
+            popMap.add(population)
+
+             const layerList = new LayerList({
+                 view: view,
+                 container: "legendDiv",
+                 listItemCreatedFunction: function (event) {
+                     const item = event.item;
+                     if (item.layer.type !="group"){
+                         item.panel ={
+                             content: "legend",
+                             open: true
+                         };
+                     }
+                 }
+             });
+            const layerList2 = new LayerList({
+                view: view2,
+                container: "legendDiv",
+                listItemCreatedFunction: function (event) {
+                    const item = event.item;
+                    if (item.layer.type !="group"){
+                        item.panel ={
+                            content: "legend",
+                            open: true
+                        };
+                    }
+                }
+            });
+            const layerList3 = new LayerList({
+                view: popview,
+                container: "legendDiv",
+                listItemCreatedFunction: function (event) {
+                    const item = event.item;
+                    if (item.layer.type !="group"){
+                        item.panel ={
+                            content: "legend",
+                            open: true
+                        };
+                    }
+                }
+            });
+            const layerList4 = new LayerList({
+                view: incview,
+                container: "legendDiv",
+                listItemCreatedFunction: function (event) {
+                    const item = event.item;
+                    if (item.layer.type !="group"){
+                        item.panel ={
+                            content: "legend",
+                            open: true
+                        };
+                    }
+                }
+            });
+
+            //Locator Map
+            var overviewmap = new Map();
+            var basemap = new VectorTileLayer({
+                url: "https://arts-sciences.maps.arcgis.com/sharing/rest/content/items/c78bb6c4d69345f9945a60a1f940fdc0/resources/styles/root.json",
+                title: "Basemap"
+            });
+            overviewmap.add(basemap);
+            var smallview = new MapView({
+                container: "overviewDiv",
+                map: overviewmap,
+                constraints: {
+                    rotationEnabled: false
+                }
+            });
+            smallview.ui.components = [];
+            var ExtentDiv = document.getElementById("extentDiv");
+            smallview.when(function (){
+                view.watch("extent", updateOverviewExtent);
+                smallview.watch("extent", updateOverviewExtent);
+
+                watchUtils.when(view, "stationary", updateOverview);
+                function updateOverview(){
+                    smallview.goTo({
+                        center: view.center,
+                        scale: view.scale * 2 * Math.max
+                        (view.width / smallview.width, view.height / smallview.height)
+                    });
+                }
+                function updateOverviewExtent(){
+                    var extent = view.extent;
+                    var bottomLeft = smallview.toScreen(new Point({
+                        x: extent.xmin,
+                        y:extent.ymin,
+                        spatialReference: extent.spatialReference
+                    }));
+                    var topRight = smallview.toScreen(new Point({
+                        x: extent.xmax,
+                        y: extent.ymax,
+                        spatialReference: extent.spatialReference
+                    }));
+                    ExtentDiv.style.top = topRight.y + "px";
+                    ExtentDiv.style.left = bottomLeft.x + "px";
+                    ExtentDiv.style.height = (bottomLeft.y - topRight.y) + "px";
+                    ExtentDiv.style.width = (topRight.x - bottomLeft.x) + "px";
+                }
+            });
+
+            //Synchronized Views
+            var synchronizeView = function (view,others){
+                others=Array.isArray(others)? others: [others];
+                var viewpointWatchHandle;
+                var viewStationaryHandle;
+                var otherInteractHandlers;
+                var scheduleId;
+                var clear=function (){
+                    if (otherInteractHandlers){
+                        otherInteractHandlers.forEach(function (handle){
+                            handle.remove();
+                        });
+                    }
+                    viewpointWatchHandle && viewpointWatchHandle.remove();
+                    viewStationaryHandle && viewStationaryHandle.remove();
+                    scheduleId && clearTimeout(scheduleId);
+                    otherInteractHandlers = viewpointWatchHandle = viewStationaryHandle = scheduleId = null;
+                };
+                var interactWatcher =
+                    view.watch('interacting,animation',function (newValue){
+                        if (!newValue){
+                            return;
+                        }
+                        if (viewpointWatchHandle || scheduleId){
+                            return;
+                        }
+                        scheduleId=setTimeout(function (){
+                            scheduleId=null;
+                            viewpointWatchHandle=view.watch('viewpoint', function (newValue){
+                                others.forEach(function (otherView){
+                                    otherView.viewpoint=newValue;
+                                });
+                            });
+                        },0);
+                        otherInteractHandlers = others.map(function (otherView){
+                            return watchUtils.watch(otherView,
+                                'interacting,animation',
+                                function (value) {if (value){ clear();
+                                }
+                                });
+                        });
+                        viewStationaryHandle = watchUtils.whenTrue(view,'stationary', clear);
+                    });
+                return{
+                    remove: function (){
+                        this.remove = function () {};
+                        clear();
+                        interactWatcher.remove();
+                    }
+                }
+            };
+            var synchronizeViews = function (views) {
+                var handles = views.map(function (view,idx,views) {
+                    var others = views.concat();
+                    others.splice(idx, 1);
+                    return synchronizeView(view,others);
+                });
+                return {
+                    remove: function (){
+                        this.remove = function (){};
+                        handles.forEach(function (h){
+                            h.remove();
+                        });
+                        handles = null;
+                    }
+                }
+            }
+            synchronizeViews([view, view2, popview, incview]);
+        })
+    </script>
+</head>
+<body>
+<div id="screenDiv">
+    <div id="topDiv">
+        <div id = "header"; style="display: table; height: 15px; overflow: hidden;"><h1 style="vertical-align: middle">Crime in Baton Rouge, LA</h1></div>
+        <div id = "titleDiv">
+            <div id="nameDiv">Locator/Legend</div>
+            <div id = "nameDiv">2014-2017</div>
+            <div id = "nameDiv">2018-2021</div>
+            <div id = "nameDiv">Population</div>
+        </div>
+    </div>
+    <div id="bodyDiv">
+        <div id="leftDiv">
+            <div id="locatorDiv">
+                <div id = "overviewDiv">
+                    <div id = "extentDiv"></div>
+                </div>
+            </div>
+            <div id="legendDiv">
+            </div>
+        </div>
+        <div id="rightDiv">
+            <div id = "viewDiv"></div>
+            <div id="seperatorDiv"></div>
+            <div id="viewDiv2"></div>
+            <div id="sideDiv">
+                <div id="PopDiv"></div>
+                <div id="ParentIncDiv">
+                    <div id = "incNameDiv">Income</div>
+                    <div id="IncDiv"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+</body>
+</html>
+
